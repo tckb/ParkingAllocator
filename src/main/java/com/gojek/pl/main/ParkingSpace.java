@@ -70,4 +70,8 @@ public class ParkingSpace {
      * @param nrSlots
      */
     public ParkingSpace(final int nrSlots) {this.nrSlots = nrSlots;}
+
+    public int getSlotsCount() {
+        return nrSlots;
+    }
 }

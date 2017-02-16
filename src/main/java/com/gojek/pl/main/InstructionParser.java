@@ -37,6 +37,7 @@ public class InstructionParser {
             case "create_parking_lot":
                 instruction = new ParkingSpaceFactory(commandData);
                 break;
+
             default:
                 throw new IllegalArgumentException(commandData[0] + " - invalid instruction");
 
