@@ -29,4 +29,8 @@ public class ParkingLot {
         return outVehicle;
     }
 
+    @Override
+    public String toString() {
+        return lotNumber + "\t\t" + (parkedVehicle == null ? "[EMPTY]" : parkedVehicle);
+    }
 }

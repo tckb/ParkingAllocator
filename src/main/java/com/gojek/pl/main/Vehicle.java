@@ -14,4 +14,8 @@ public class Vehicle {
         this.vehicleColor = vehicleColor;
     }
 
+    @Override
+    public String toString() {
+        return vehicleNr + "\t" + vehicleColor;
+    }
 }

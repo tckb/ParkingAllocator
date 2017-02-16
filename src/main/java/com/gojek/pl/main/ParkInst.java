@@ -16,4 +16,8 @@ public class ParkInst extends AbstractInstruction {
     public boolean validateParams(final String[] params) {
         return true;
     }
+
+    public Vehicle getVehicle() {
+        return new Vehicle(getCommandParams()[0], getCommandParams()[1]);
+    }
 }
