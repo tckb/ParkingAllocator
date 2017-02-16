@@ -34,7 +34,7 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>com.jivox.server.App</Main-Class>
+                                        <Main-Class>com.gojek.pl.main.MainRunner</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>

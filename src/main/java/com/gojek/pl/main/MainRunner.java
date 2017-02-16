@@ -7,6 +7,7 @@ package com.gojek.pl.main;
  */
 public class MainRunner {
     public static void main(String[] args) {
-        // do magic here
+        // check if the file name is provided, if yes then start parsing the file with instuctions line by line
+        // else start the interactive mode
     }
 }
