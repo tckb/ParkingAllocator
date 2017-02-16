@@ -29,7 +29,7 @@ public abstract class AbstractInstruction implements Instruction {
             throw new IllegalArgumentException("Require " + nrReqParams + " params to execute " + getCommand() + "!");
         }
 
-        this.params = Arrays.copyOfRange(params, 1, nrReqParams);
+        this.params = Arrays.copyOfRange(params, 1, nrReqParams + 1);
 
         if (!validateParams(params)) {
             throw new IllegalArgumentException("Invalid params! check the spec");
@@ -60,4 +60,9 @@ public abstract class AbstractInstruction implements Instruction {
      */
     public abstract boolean validateParams(String[] params);
 
+
+    @Override
+    public String toString() {
+        return getCommand() + ": " + Arrays.toString(getCommandParams());
+    }
 }
