@@ -31,7 +31,7 @@ public abstract class AbstractInstruction implements Instruction {
 
         this.params = Arrays.copyOfRange(params, 1, nrReqParams + 1);
 
-        if (!validateParams(params)) {
+        if (!validateParams(this.params)) {
             throw new IllegalArgumentException("Invalid params! check the spec");
         }
 
