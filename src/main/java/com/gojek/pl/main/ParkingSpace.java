@@ -1,6 +1,6 @@
 package com.gojek.pl.main;
 
-import java.util.Collection;
+import java.util.Arrays;
 
 /**
  * Implementation of Parking space
@@ -10,10 +10,9 @@ import java.util.Collection;
 public class ParkingSpace {
 
     private final int nrSlots;
-    // some datastructure to hold parking lots
-    private Collection<ParkingLot> parkingLots;
+    private final ParkingLot[] parkingLots;
     // message templates
-    private String[] messageTemplates = new String[]{
+    private final String[] messageTemplates = new String[]{
             "Allocated slot number: %s",
             "Slot number %s is free"
     };
@@ -36,7 +35,7 @@ public class ParkingSpace {
                 returnMessage = freeUpSlot(((LeaveInst) instruction).getSlot());
                 break;
             default:
-                returnMessage = "skipping, " + instruction.getCommand();
+                returnMessage = instruction.getCommand() + " not supported, skipping";
 
         }
         return returnMessage;
@@ -52,15 +51,13 @@ public class ParkingSpace {
 
 
     /**
-     * returns a representation of this parking space
-     *
-     * @return
+     * @return a representation of this parking space
      */
     @Override
     public String toString() {
         StringBuilder parkingSpace = new StringBuilder();
         parkingSpace.append("Slot No.").append("\t\t").append("Registration No").append("\t").append("Colour");
-        parkingLots.forEach(parkingLot -> parkingSpace.append(parkingLot.toString()));
+        Arrays.asList(parkingLots).forEach(parkingLot -> parkingSpace.append(parkingLot.toString()));
         return parkingSpace.toString();
     }
 
@@ -69,7 +66,16 @@ public class ParkingSpace {
      *
      * @param nrSlots
      */
-    public ParkingSpace(final int nrSlots) {this.nrSlots = nrSlots;}
+    public ParkingSpace(final int nrSlots) {
+        // create empty lots
+        parkingLots = new ParkingLot[nrSlots];
+        // initialize the parking space with empty lots
+        for (int i = 0; i < nrSlots; i++) {
+            parkingLots[i] = new ParkingLot(i);
+        }
+        // keep a reference of the number of slots, instead of querying the array each time
+        this.nrSlots = nrSlots;
+    }
 
     public int getSlotsCount() {
         return nrSlots;

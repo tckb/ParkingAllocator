@@ -5,7 +5,7 @@ package com.gojek.pl.main;
  *
  * @author tckb
  */
-public class InstructionParser {
+public abstract class InstructionParser {
     /**
      * Parses the raw string and returns the instruction
      *
@@ -14,7 +14,7 @@ public class InstructionParser {
      */
     public static Instruction parseString(String rawString) {
         // check the mandatory param
-        Utils.checkMandatory(rawString, "rawString");
+        Utils.checkMandatory(rawString, "command_name");
         //
         Instruction instruction = null;
         final String[] commandData = rawString.split(" ");
@@ -39,10 +39,23 @@ public class InstructionParser {
                 break;
 
             default:
-                throw new IllegalArgumentException(commandData[0] + " - invalid instruction");
+                throw new IllegalArgumentException(commandData[0] + " - invalid instruction. List of supported Instructions:\n" + listOfSupportedInstructions());
 
         }
         return instruction;
+
+    }
+
+    public static String listOfSupportedInstructions() {
+        return
+                "create_parking_lot <nr_lots>\n" +
+                        "park <vehicle_nr> <vehicle_color>\n" +
+                        "leave <slot_nr>\n" +
+                        "status\n" +
+                        "registration_numbers_for_cars_with_colour <vehicle_color>\n" +
+                        "slot_numbers_for_cars_with_colour <vehicle_color>\n" +
+                        "slot_number_for_registration_number <vehicle_nr>\n" +
+                        "exit";
 
     }
 }
