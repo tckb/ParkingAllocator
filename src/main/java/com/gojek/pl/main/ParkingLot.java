@@ -62,6 +62,6 @@ public class ParkingLot {
 
     @Override
     public String toString() {
-        return lotNumber + "\t\t" + (parkedVehicle == null ? "[EMPTY]" : parkedVehicle);
+        return lotNumber + "\t\t" + (parkedVehicle == null ? "- Available -" : parkedVehicle);
     }
 }

@@ -37,25 +37,24 @@ public class MainRunner {
 
     private static void startNonInteractive(final List<Instruction> listOfInsts) throws CannotProceedException {
         if (!(listOfInsts.get(0) instanceof ParkingSpaceFactory)) {
-            throw new CannotProceedException("First instruction should always be a 'create_parking_lot'");
+            throw new IllegalArgumentException("First instruction should always be a 'create_parking_lot'");
         }
         parkingSpace = ((ParkingSpaceFactory) listOfInsts.get(0)).build();
-        logger.info("Created a parking lot with " + parkingSpace.getSlotsCount() + " slots");
+        logger.info("Created a parking lot with " + parkingSpace.getTotalSlots() + " slots");
 
         listOfInsts.stream()
                 .skip(1L)
                 .forEach(instruction -> logger.info(parkingSpace.execute(instruction)));
     }
 
+    // a simple REPL for simulating interactive mode
     private static void startInteractive() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print(">> ");
             String line = scanner.nextLine();
-            if (!line.equals("exit")) {
-                if (!line.isEmpty()) {
-                    processInstruction(line);
-                }
+            if (!(line.equals("exit") || line.isEmpty())) {
+                processInstruction(line);
             } else {
                 System.out.println("tschüss!! adiós!!");
                 System.exit(0);
@@ -68,12 +67,11 @@ public class MainRunner {
 
             final Instruction instruction = InstructionParser.parseString(line);
             if (parkingSpace != null) {
-                System.out.println(parkingSpace.execute(instruction));
+                System.out.println("Inf: " + parkingSpace.execute(instruction));
             } else {
                 if (instruction instanceof ParkingSpaceFactory) {
                     parkingSpace = ((ParkingSpaceFactory) instruction).build();
-                    System.out.println("Inf: Created a parking lot with " + parkingSpace.getSlotsCount() + " slots");
-
+                    System.out.println("Inf: Created a parking lot with " + parkingSpace.getTotalSlots() + " slots");
                 } else {
                     System.out.println("Err: Parking space is not created yet, please create a parking space first!");
                 }

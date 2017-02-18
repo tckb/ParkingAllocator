@@ -1,6 +1,8 @@
 package com.gojek.pl.main;
 
 import java.util.Arrays;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Implementation of Parking space
@@ -9,13 +11,10 @@ import java.util.Arrays;
  */
 public class ParkingSpace {
 
-    private final int nrSlots;
+    private final int totalAvailableSlots;
     private final ParkingLot[] parkingLots;
-    // message templates
-    private final String[] messageTemplates = new String[]{
-            "Allocated slot number: %s",
-            "Slot number %s is free"
-    };
+    // keep the references of slots that are occupied
+    private final SortedSet<Integer> occupiedSlots;
 
 
     /**
@@ -34,6 +33,9 @@ public class ParkingSpace {
             case "leave":
                 returnMessage = freeUpSlot(((LeaveInst) instruction).getSlot());
                 break;
+            case "status":
+                returnMessage = toString();
+                break;
             default:
                 returnMessage = instruction.getCommand() + " not supported, skipping";
 
@@ -41,12 +43,42 @@ public class ParkingSpace {
         return returnMessage;
     }
 
-    private String freeUpSlot(final int slot) {
-        return slot + " slot not found";
+    // slot number starts from 1...totalAvailableSlots
+    private String freeUpSlot(final int slotNr) {
+        if (slotNr > totalAvailableSlots || slotNr < 1) {
+            return slotNr + " slot not found";
+        } else {
+            // free up the slot
+            if (occupiedSlots.contains(slotNr)) {
+                final Vehicle parkedVehicle = parkingLots[slotNr].freeUp();
+                if (parkedVehicle != null) {
+                    occupiedSlots.remove(slotNr);
+                    return "Slot number " + slotNr + " is free; [" + parkedVehicle + "] ";
+                }
+            }
+            return "Slot number " + slotNr + " is already free";
+        }
     }
 
     private String parkIfPossible(final Vehicle vehicleToPark) {
+        if (occupiedSlots.size() < totalAvailableSlots) {
+            int availableSlot = findClosestFreeSlot();
+            if (availableSlot != -1) {
+                if (parkingLots[availableSlot].park(vehicleToPark)) {
+                    return "Allocated slot number: " + availableSlot;
+                } else {
+                    // this technically should not happen!
+                }
+            }
+        }
         return "Sorry, parking lot is full";
+    }
+
+    private int findClosestFreeSlot() {
+        // main implementation for finding the closest slot#
+        
+
+        return -1;
     }
 
 
@@ -56,8 +88,12 @@ public class ParkingSpace {
     @Override
     public String toString() {
         StringBuilder parkingSpace = new StringBuilder();
-        parkingSpace.append("Slot No.").append("\t\t").append("Registration No").append("\t").append("Colour");
-        Arrays.asList(parkingLots).forEach(parkingLot -> parkingSpace.append(parkingLot.toString()));
+        parkingSpace.append("Slot No.").append("\t\t").append("Registration#").append("\t\t").append("Colour").append("\n");
+        Arrays.asList(parkingLots).forEach(parkingLot -> parkingSpace.append(parkingLot.toString()).append("\n"));
+
+        parkingSpace.append("\n")
+                .append(getTotalSlots() - occupiedSlots.size()).append(" Slots Available.");
+
         return parkingSpace.toString();
     }
 
@@ -71,13 +107,14 @@ public class ParkingSpace {
         parkingLots = new ParkingLot[nrSlots];
         // initialize the parking space with empty lots
         for (int i = 0; i < nrSlots; i++) {
-            parkingLots[i] = new ParkingLot(i);
+            parkingLots[i] = new ParkingLot(i + 1);
         }
         // keep a reference of the number of slots, instead of querying the array each time
-        this.nrSlots = nrSlots;
+        this.totalAvailableSlots = nrSlots;
+        occupiedSlots = new TreeSet<>();
     }
 
-    public int getSlotsCount() {
-        return nrSlots;
+    public int getTotalSlots() {
+        return totalAvailableSlots;
     }
 }

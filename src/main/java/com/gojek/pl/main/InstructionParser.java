@@ -27,6 +27,22 @@ public abstract class InstructionParser {
                 instruction = new LeaveInst(commandData);
                 break;
             case "status":
+                instruction = new Instruction() {
+                    @Override
+                    public String getCommand() {
+                        return "status";
+                    }
+
+                    @Override
+                    public String[] getCommandParams() {
+                        return new String[]{};
+                    }
+
+                    @Override
+                    public int getNrReqParams() {
+                        return 0;
+                    }
+                };
                 break;
             case "registration_numbers_for_cars_with_colour":
                 break;
