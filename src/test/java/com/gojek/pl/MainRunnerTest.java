@@ -22,12 +22,6 @@ public class MainRunnerTest {
     @Test(testName = "non-interative mode")
     public void testInteractive() throws Exception {
         MainRunner.main(new String[]{inputInstFile});
-
     }
 
-    @Test(testName = "interative mode")
-    public void testNonInteractive() throws Exception {
-
-
-    }
 }

@@ -52,6 +52,12 @@ public interface ParkingSpace {
      */
     ParkingLot getParkingLot(int slotNr);
 
+
+    /**
+     * @return the number of slots available for parking
+     */
+    int getFreeSlots();
+
     /**
      * @return a representation of this parking space
      */

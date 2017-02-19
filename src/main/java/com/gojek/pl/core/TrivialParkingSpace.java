@@ -9,7 +9,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Implementation of Parking space
+ * A trivial implementation of parking space. Note, this is just sequential implementation,
+ * not be used in multi-threaded scenario.
  *
  * @author tckb
  */
@@ -87,7 +88,7 @@ public class TrivialParkingSpace implements ParkingSpace {
 
     @Override
     public boolean isValidSlot(final int slotNr) {
-        return (slotNr >= 1 || slotNr <= totalAvailableSlots);
+        return (slotNr >= 1 && slotNr <= totalAvailableSlots);
     }
 
     @Override
@@ -96,6 +97,11 @@ public class TrivialParkingSpace implements ParkingSpace {
             return parkingLots[slotNr - 1];
         }
         return null;
+    }
+
+    @Override
+    public int getFreeSlots() {
+        return availableSlots.size();
     }
 
     @Override
