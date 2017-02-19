@@ -1,6 +1,7 @@
 package com.gojek.pl.model.inst;
 
 import com.gojek.pl.core.ParkingSpace;
+import com.gojek.pl.core.TrivialParkingSpace;
 
 /**
  * a parking space factory is a type of instruction to create parking space
@@ -24,7 +25,7 @@ public class ParkingSpaceFactory extends AbstractInstruction {
     }
 
     public ParkingSpace build() {
-        return new ParkingSpace(Integer.parseInt(getCommandParams()[0]));
+        return new TrivialParkingSpace(Integer.parseInt(getCommandParams()[0]));
     }
 
 }

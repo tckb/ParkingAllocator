@@ -8,19 +8,26 @@ import org.testng.annotations.Test;
  *
  * @author tckb
  */
+@Test
 public class MainRunnerTest {
 
-    String fileName;
-
+    private String inputInstFile;
 
     @BeforeMethod
     public void setUp() throws Exception {
-        fileName = "/Users/tckb/Documents/Work/GoJekParking/ParkingAllocator/src/main/resources/file_inputs_1.txt";
+        inputInstFile = MainRunnerTest.class.getResource("/file_test_inputs.txt").getPath();
+
     }
 
-    @Test
-    public void testMain() throws Exception {
-        MainRunner.main(new String[]{fileName});
+    @Test(testName = "non-interative mode")
+    public void testInteractive() throws Exception {
+        MainRunner.main(new String[]{inputInstFile});
+
+    }
+
+    @Test(testName = "interative mode")
+    public void testNonInteractive() throws Exception {
+
 
     }
 }

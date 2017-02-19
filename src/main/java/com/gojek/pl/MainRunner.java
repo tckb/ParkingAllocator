@@ -6,9 +6,7 @@ import com.gojek.pl.core.Utils;
 import com.gojek.pl.model.inst.Instruction;
 import com.gojek.pl.model.inst.ParkingSpaceFactory;
 
-import javax.naming.CannotProceedException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -39,7 +37,7 @@ public class MainRunner {
     }
 
 
-    private static void startNonInteractive(final List<Instruction> listOfInsts) throws CannotProceedException {
+    private static void startNonInteractive(final List<Instruction> listOfInsts) {
         if (!(listOfInsts.get(0) instanceof ParkingSpaceFactory)) {
             throw new IllegalArgumentException("First instruction should always be a 'create_parking_lot'");
         }
@@ -48,7 +46,7 @@ public class MainRunner {
 
         listOfInsts.stream()
                 .skip(1L)
-                .forEach(instruction -> logger.info(parkingSpace.execute(instruction)));
+                .forEach(instruction -> logger.info(ParkingHelper.executeInstruction(parkingSpace, instruction)));
     }
 
     // a simple REPL for simulating interactive mode
@@ -72,7 +70,7 @@ public class MainRunner {
 
             final Instruction instruction = InstructionParser.parseString(line);
             if (parkingSpace != null) {
-                System.out.println(parkingSpace.execute(instruction));
+                System.out.println(ParkingHelper.executeInstruction(parkingSpace, instruction));
             } else {
                 if (instruction instanceof ParkingSpaceFactory) {
                     parkingSpace = ((ParkingSpaceFactory) instruction).build();
@@ -101,7 +99,7 @@ public class MainRunner {
     private static void setup() {
         // just configuring the log
         try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("/Users/tckb/Documents/Work/GoJekParking/ParkingAllocator/src/main/resources/app.properties"));
+            LogManager.getLogManager().readConfiguration(MainRunner.class.getResourceAsStream("/app.properties"));
         } catch (SecurityException | IOException e1) {
             e1.printStackTrace();
             System.exit(1);

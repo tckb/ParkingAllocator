@@ -53,7 +53,6 @@ public class InstructionParserTest {
                 InstructionParser.parseString(inst);
             } catch (Exception ex) {
                 exceptions++;
-                System.out.println(ex.getMessage());
             }
         }
         Assert.assertEquals(exceptions, invalidInstructions.length, "invalid instruction parsing count failed!");

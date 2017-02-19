@@ -11,7 +11,7 @@ public class ParkingLot {
     private final int lotNumber;
     private Vehicle parkedVehicle;
 
-    public ParkingLot(final int lotNumber) {
+    ParkingLot(final int lotNumber) {
         this.lotNumber = lotNumber;
         parkedVehicle = null;
     }
@@ -33,7 +33,7 @@ public class ParkingLot {
      *         the vehicle to be parked
      * @return true - if vehicle is parked, false - if parking not possible, i.e.,another vehicle is parked
      */
-    public boolean park(final Vehicle allocatedVehicle) {
+    boolean park(final Vehicle allocatedVehicle) {
         if (isAvailable()) {
             this.parkedVehicle = allocatedVehicle;
             return true;
@@ -55,7 +55,7 @@ public class ParkingLot {
      *
      * @return vehicle which was parked, returns `null` if there's no vehicle parked!
      */
-    public Vehicle freeUp() {
+    Vehicle freeUp() {
         // no null check required here
         Vehicle outVehicle = this.parkedVehicle;
         this.parkedVehicle = null;
