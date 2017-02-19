@@ -5,7 +5,7 @@ import com.gojek.pl.core.ParkingSpace;
 import com.gojek.pl.model.inst.Instruction;
 import com.gojek.pl.model.inst.ParkingSpaceFactory;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -27,12 +27,11 @@ public class MainRunnerTest {
     private String inputInstFile;
     List<Instruction> instructions;
     List<String> instructionsString;
-    ParkingSpace parkingSpace;
+    ParkingSpace parkingSpace1, parkingSpace2;
+    private List<Instruction> instructions2;
 
-    @BeforeMethod
+    @BeforeClass
     public void setUp() throws Exception {
-//        inputInstFile = MainRunnerTest.class.getResource("/file_test_inputs.txt").getPath();
-//        instruction = readInstructionFile(inputInstFile);
         instructionsString = Arrays.asList(
                 "create_parking_lot 6",
                 "park KA-01-BB-0001 Black",
@@ -49,21 +48,32 @@ public class MainRunnerTest {
                 "slot_number_for_registration_number KA-01-BB-0001",
                 "slot_numbers_for_cars_with_colour blue"
         );
-
         instructions = parseInstructions(instructionsString);
+
+
+        instructions2 = parseInstructions(Arrays.asList(
+                "create_parking_lot 2",
+                "park KA-01-BB-0001 Black",
+                "park KA-01-HH-2701 Blue",
+                "slot_numbers_for_cars_with_colour black",
+                "slot_numbers_for_cars_with_colour blue",
+                "slot_number_for_registration_number KA-01-HH-2701"
+        ));
     }
 
 
     @Test
     public void setUpParkingSpace() {
-        parkingSpace = ((ParkingSpaceFactory) instructions.get(0)).build();
+        parkingSpace1 = ((ParkingSpaceFactory) instructions.get(0)).build();
+        parkingSpace2 = ((ParkingSpaceFactory) instructions2.get(0)).build();
+
     }
 
 
     @Test(testName = "non-interative mode", dependsOnMethods = "setUpParkingSpace")
     public void testNonInteractive() throws Exception {
         System.out.println("Running the following instructions ...\n" + instructionsString);
-        final List<String> messages = runInstructions(instructions);
+        final List<String> messages = runInstructions(parkingSpace1, instructions);
         System.out.println("Output: \n" + messages);
 
         // allocation related messages
@@ -81,10 +91,21 @@ public class MainRunnerTest {
         Assert.assertTrue(messages.get(11).equals("1"));
         Assert.assertTrue(messages.get(12).equals("1, 3"));
 
+
+        final List<String> messages2 = runInstructions(parkingSpace2, instructions2);
+        System.out.println("Output: \n" + messages);
+
+        Assert.assertTrue(messages2.get(0).contains("Allocated slot number: 1"));
+        Assert.assertTrue(messages2.get(1).contains("Allocated slot number: 2"));
+        Assert.assertTrue(messages2.get(2).contains("1"));
+        Assert.assertTrue(messages2.get(3).contains("2"));
+        Assert.assertTrue(messages2.get(4).contains("2"));
+
+
     }
 
 
-    private List<String> runInstructions(List<Instruction> instructions) {
+    private List<String> runInstructions(ParkingSpace parkingSpace, List<Instruction> instructions) {
         return instructions.stream()
                 .skip(1L)
                 .map(instruction -> ParkingHelper.executeInstruction(parkingSpace, instruction))

@@ -51,7 +51,7 @@ public abstract class ParkingHelper {
                 String searchColour = ((SearchVehicleByColour) instruction).getColour();
                 StringBuilder result = new StringBuilder();
 
-                for (slotNr = 1; slotNr < parkingSpace.getTotalSlots(); slotNr++) {
+                for (slotNr = 1; slotNr <= parkingSpace.getTotalSlots(); slotNr++) {
                     ParkingLot parkingLot = parkingSpace.getParkingLot(slotNr);
                     if (!parkingLot.isAvailable()) {
                         final Vehicle vehicle = parkingLot.visit();
@@ -73,7 +73,7 @@ public abstract class ParkingHelper {
                 searchColour = ((SearchSlotByVehicleColour) instruction).getVehicleColour();
                 result = new StringBuilder();
 
-                for (slotNr = 1; slotNr < parkingSpace.getTotalSlots(); slotNr++) {
+                for (slotNr = 1; slotNr <= parkingSpace.getTotalSlots(); slotNr++) {
                     ParkingLot parkingLot = parkingSpace.getParkingLot(slotNr);
                     if (!parkingLot.isAvailable()) {
                         final Vehicle vehicle = parkingLot.visit();
@@ -96,7 +96,7 @@ public abstract class ParkingHelper {
                 final String vehicleNr = ((SearchSlotByVehicleNr) instruction).getVehicleNr();
                 result = new StringBuilder();
 
-                for (slotNr = 1; slotNr < parkingSpace.getTotalSlots(); slotNr++) {
+                for (slotNr = 1; slotNr <= parkingSpace.getTotalSlots(); slotNr++) {
                     ParkingLot parkingLot = parkingSpace.getParkingLot(slotNr);
                     if (!parkingLot.isAvailable()) {
                         final Vehicle vehicle = parkingLot.visit();
