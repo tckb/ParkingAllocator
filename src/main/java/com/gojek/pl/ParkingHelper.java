@@ -61,8 +61,12 @@ public abstract class ParkingHelper {
 
                     }
                 }
-                result.delete(result.length() - 2, result.length());
-                returnMessage = result.toString();
+                if (result.length() == 0) {
+                    returnMessage = "Not found";
+                } else {
+                    result.delete(result.length() - 2, result.length());
+                    returnMessage = result.toString();
+                }
                 break;
             case "slot_numbers_for_cars_with_colour":
                 // trivial search here!
@@ -79,8 +83,13 @@ public abstract class ParkingHelper {
 
                     }
                 }
-                result.delete(result.length() - 2, result.length());
-                returnMessage = result.toString();
+                if (result.length() == 0) {
+                    returnMessage = "Not found";
+                } else {
+                    result.delete(result.length() - 2, result.length());
+                    returnMessage = result.toString();
+                }
+
                 break;
             case "slot_number_for_registration_number":
                 // trivial search here!
@@ -99,7 +108,9 @@ public abstract class ParkingHelper {
 
                     }
                 }
-                returnMessage = result.toString();
+                if (result.length() == 0) {
+                    returnMessage = "Not found";
+                } else { returnMessage = result.toString(); }
                 break;
 
             default:

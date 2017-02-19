@@ -20,7 +20,10 @@ public class InstructionParserTest {
     public void setUp() throws Exception {
         validInstructions = new String[]{
                 "park KA-01-HH-1234 White",
-                "leave 4"
+                "leave 4",
+                "registration_numbers_for_cars_with_colour color",
+                "slot_numbers_for_cars_with_colour color",
+                "slot_number_for_registration_number car"
         };
 
         invalidInstructions = new String[]{
@@ -28,7 +31,10 @@ public class InstructionParserTest {
                 "park",
                 "leave",
                 null,
-                ""
+                "registration_numbers_for_cars_with_colour",
+                "slot_numbers_for_cars_with_colour",
+                "slot_number_for_registration_number"
+
         };
 
     }
