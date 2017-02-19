@@ -6,6 +6,16 @@
     <groupId>com.gojek</groupId>
     <artifactId>parking-lot</artifactId>
     <version>0.1</version>
+    <developers>
+        <developer>
+            <name>Chandra Tungathurthi</name>
+            <email>chandra.tungathurthi@rwth-aachen.de</email>
+            <timezone>IST</timezone>
+            <url>http://about.me/tckb</url>
+        </developer>
+    </developers>
+    <name>Parking Lot Allocator</name>
+    <description>A simple program for allocating parking spaces</description>
 
     <build>
         <plugins>
