@@ -112,11 +112,11 @@ public class TrivialParkingSpace implements ParkingSpace {
     @Override
     public String toString() {
         StringBuilder parkingSpace = new StringBuilder();
-        parkingSpace.append("Slot No.").append("\t\t").append("Registration#").append("\t\t").append("Colour").append("\n");
+        parkingSpace.append("Slot#").append("\t").append("Registration#").append("\t\t").append("Colour").append("\n");
         Arrays.asList(parkingLots).forEach(parkingLot -> parkingSpace.append(parkingLot.toString()).append("\n"));
 
         parkingSpace.append("\n")
-                .append(getTotalSlots() - occupiedSlots.size()).append(" Slots Available.");
+                .append(getTotalSlots() - occupiedSlots.size()).append(" Slot(s) Available.");
 
         return parkingSpace.toString();
     }

@@ -56,8 +56,8 @@ public class MainRunner {
         while (true) {
             System.out.print(">> ");
             String line = scanner.nextLine();
-            if (!(line.equals("exit") || line.isEmpty())) {
-                processInstruction(line);
+            if (!line.equals("exit")) {
+                if (!line.isEmpty()) { processInstruction(line); }
             } else {
                 System.out.println("tschüss!! adiós!!");
                 System.exit(0);

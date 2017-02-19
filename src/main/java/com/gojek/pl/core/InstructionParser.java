@@ -1,9 +1,6 @@
 package com.gojek.pl.core;
 
-import com.gojek.pl.model.inst.Instruction;
-import com.gojek.pl.model.inst.LeaveInst;
-import com.gojek.pl.model.inst.ParkInst;
-import com.gojek.pl.model.inst.ParkingSpaceFactory;
+import com.gojek.pl.model.inst.*;
 
 /**
  * A util class to build an instruction from a raw string
@@ -50,15 +47,18 @@ public abstract class InstructionParser {
                 };
                 break;
             case "registration_numbers_for_cars_with_colour":
+                instruction = new SearchVehicleByColour(commandData);
                 break;
             case "slot_numbers_for_cars_with_colour":
+                instruction = new SearchSlotByVehicleColour(commandData);
+
                 break;
             case "slot_number_for_registration_number":
+                instruction = new SearchSlotByVehicleNr(commandData);
                 break;
             case "create_parking_lot":
                 instruction = new ParkingSpaceFactory(commandData);
                 break;
-
             default:
                 throw new IllegalArgumentException(commandData[0] + " - invalid instruction. List of supported Instructions:\n" + listOfSupportedInstructions());
 
