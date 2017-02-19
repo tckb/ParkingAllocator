@@ -21,11 +21,16 @@ SRC_DIR=$PWD
 INST_FILE=$1
 JAR_FILE=$SRC_DIR/target/parking-lot-0.1.jar
 
-if [[ ( -z $INST_FILE ) || ( ! -e $INST_FILE ) ]]; then
-	echo "> invalid instruction file! Usage: $0 </path/to/instruction_file.txt>"
-	exit 200
+if [[ -z $INST_FILE ]]; then
+	INTERACTIVE=1
+else
+	if [[ ( ! -e $INST_FILE ) ]]; then
+		echo "> Instruction file does not exit! please check the path."
+		exit 100
+	else
+		INTERACTIVE=0
+	fi
 fi
-
 
 if [[ ( ! -e $JAR_FILE ) ]]; then
 	echo "> Jar file doesn't exit"
@@ -46,6 +51,10 @@ fi
 
 
 echo "> Running the jar file ..."
-java -jar $JAR_FILE $INST_FILE
+if [[ $INTERACTIVE -eq 0 ]]; then
+	java -jar $JAR_FILE $INST_FILE
+else
+	java -jar $JAR_FILE
+fi
 
 
