@@ -8,8 +8,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -49,6 +47,7 @@ public class MainRunner {
 
     // a simple REPL for simulating interactive mode
     private static void startInteractive() {
+        System.out.println("Type `exit` to quit.");
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print(">> ");
@@ -67,11 +66,11 @@ public class MainRunner {
 
             final Instruction instruction = InstructionParser.parseString(line);
             if (parkingSpace != null) {
-                System.out.println("Inf: " + parkingSpace.execute(instruction));
+                System.out.println(parkingSpace.execute(instruction));
             } else {
                 if (instruction instanceof ParkingSpaceFactory) {
                     parkingSpace = ((ParkingSpaceFactory) instruction).build();
-                    System.out.println("Inf: Created a parking lot with " + parkingSpace.getTotalSlots() + " slots");
+                    System.out.println("Created a parking lot with " + parkingSpace.getTotalSlots() + " slots");
                 } else {
                     System.out.println("Err: Parking space is not created yet, please create a parking space first!");
                 }
@@ -101,8 +100,6 @@ public class MainRunner {
             e1.printStackTrace();
             System.exit(1);
         }
-        logger.setLevel(Level.FINE);
-        logger.addHandler(new ConsoleHandler());
     }
 
 }

@@ -1,7 +1,9 @@
 package com.gojek.pl.main;
 
 import java.util.Arrays;
-import java.util.SortedSet;
+import java.util.HashSet;
+import java.util.NavigableSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -14,7 +16,8 @@ public class ParkingSpace {
     private final int totalAvailableSlots;
     private final ParkingLot[] parkingLots;
     // keep the references of slots that are occupied
-    private final SortedSet<Integer> occupiedSlots;
+    private final Set<Integer> occupiedSlots;
+    private final NavigableSet<Integer> availableSlots;
 
 
     /**
@@ -50,9 +53,10 @@ public class ParkingSpace {
         } else {
             // free up the slot
             if (occupiedSlots.contains(slotNr)) {
-                final Vehicle parkedVehicle = parkingLots[slotNr].freeUp();
+                final Vehicle parkedVehicle = parkingLots[slotNr - 1].freeUp();
                 if (parkedVehicle != null) {
                     occupiedSlots.remove(slotNr);
+                    availableSlots.add(slotNr);
                     return "Slot number " + slotNr + " is free; [" + parkedVehicle + "] ";
                 }
             }
@@ -64,7 +68,7 @@ public class ParkingSpace {
         if (occupiedSlots.size() < totalAvailableSlots) {
             int availableSlot = findClosestFreeSlot();
             if (availableSlot != -1) {
-                if (parkingLots[availableSlot].park(vehicleToPark)) {
+                if (parkingLots[availableSlot - 1].park(vehicleToPark)) {
                     return "Allocated slot number: " + availableSlot;
                 } else {
                     // this technically should not happen!
@@ -75,9 +79,12 @@ public class ParkingSpace {
     }
 
     private int findClosestFreeSlot() {
-        // main implementation for finding the closest slot#
-        
-
+        if (!availableSlots.isEmpty()) {
+            // return the first available slot!
+            final Integer availableSlot = availableSlots.pollFirst();
+            occupiedSlots.add(availableSlot);
+            return availableSlot;
+        }
         return -1;
     }
 
@@ -103,15 +110,20 @@ public class ParkingSpace {
      * @param nrSlots
      */
     public ParkingSpace(final int nrSlots) {
+        // we need faster access
+        occupiedSlots = new HashSet<>();
+        // we need the slots to be ordered
+        availableSlots = new TreeSet<>();
         // create empty lots
         parkingLots = new ParkingLot[nrSlots];
         // initialize the parking space with empty lots
         for (int i = 0; i < nrSlots; i++) {
             parkingLots[i] = new ParkingLot(i + 1);
+            availableSlots.add(i + 1);
         }
         // keep a reference of the number of slots, instead of querying the array each time
         this.totalAvailableSlots = nrSlots;
-        occupiedSlots = new TreeSet<>();
+
     }
 
     public int getTotalSlots() {

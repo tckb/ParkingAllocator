@@ -16,6 +16,6 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return vehicleNr + " - " + vehicleColor;
+        return vehicleNr + "\t\t" + vehicleColor;
     }
 }
