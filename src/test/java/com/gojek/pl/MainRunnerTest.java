@@ -4,6 +4,7 @@ import com.gojek.pl.core.InstructionParser;
 import com.gojek.pl.core.ParkingSpace;
 import com.gojek.pl.model.inst.Instruction;
 import com.gojek.pl.model.inst.ParkingSpaceFactory;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -43,9 +44,10 @@ public class MainRunnerTest {
                 "registration_numbers_for_cars_with_colour White",
                 "slot_numbers_for_cars_with_colour black",
                 "slot_numbers_for_cars_with_colour red",
-                "park KA-01-BB-0001 Black",
+                "park KA-01-BB-0001 blue",
                 "slot_number_for_registration_number KA-01-HH-3141",
-                "slot_number_for_registration_number KA-01-BB-0001"
+                "slot_number_for_registration_number KA-01-BB-0001",
+                "slot_numbers_for_cars_with_colour blue"
         );
 
         instructions = parseInstructions(instructionsString);
@@ -64,6 +66,20 @@ public class MainRunnerTest {
         final List<String> messages = runInstructions(instructions);
         System.out.println("Output: \n" + messages);
 
+        // allocation related messages
+        for (int i = 0; i <= 3; i++) {
+            Assert.assertTrue(messages.get(i).contains("Allocated slot number: " + (i + 1)));
+        }
+
+        Assert.assertTrue(messages.get(4).contains("Slot number 4 is free"));
+        Assert.assertTrue(messages.get(5).contains("Slot number 1 is free"));
+        Assert.assertTrue(messages.get(6).contains("Not found"));
+        Assert.assertTrue(messages.get(7).contains("Not found"));
+        Assert.assertTrue(messages.get(8).equals("2"));
+        Assert.assertTrue(messages.get(9).contains("Allocated slot number: 1"));
+        Assert.assertTrue(messages.get(10).contains("Not found"));
+        Assert.assertTrue(messages.get(11).equals("1"));
+        Assert.assertTrue(messages.get(12).equals("1, 3"));
 
     }
 
