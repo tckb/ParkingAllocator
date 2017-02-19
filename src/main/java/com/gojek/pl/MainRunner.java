@@ -1,4 +1,10 @@
-package com.gojek.pl.main;
+package com.gojek.pl;
+
+import com.gojek.pl.core.InstructionParser;
+import com.gojek.pl.core.ParkingSpace;
+import com.gojek.pl.core.Utils;
+import com.gojek.pl.model.inst.Instruction;
+import com.gojek.pl.model.inst.ParkingSpaceFactory;
 
 import javax.naming.CannotProceedException;
 import java.io.File;

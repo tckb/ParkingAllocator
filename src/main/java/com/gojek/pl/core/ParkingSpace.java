@@ -1,4 +1,9 @@
-package com.gojek.pl.main;
+package com.gojek.pl.core;
+
+import com.gojek.pl.model.inst.Instruction;
+import com.gojek.pl.model.inst.LeaveInst;
+import com.gojek.pl.model.inst.ParkInst;
+import com.gojek.pl.model.Vehicle;
 
 import java.util.Arrays;
 import java.util.HashSet;

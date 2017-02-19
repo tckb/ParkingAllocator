@@ -1,4 +1,6 @@
-package com.gojek.pl.main;
+package com.gojek.pl.core;
+
+import com.gojek.pl.model.Vehicle;
 
 /**
  * represents the physical parking lot

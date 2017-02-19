@@ -1,5 +1,6 @@
-package com.gojek.pl.main;
+package com.gojek.pl;
 
+import com.gojek.pl.core.InstructionParser;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

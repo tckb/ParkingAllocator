@@ -1,4 +1,4 @@
-package com.gojek.pl.main;
+package com.gojek.pl.model.inst;
 
 import java.util.Arrays;
 

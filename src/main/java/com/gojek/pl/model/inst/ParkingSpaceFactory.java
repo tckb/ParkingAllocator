@@ -1,4 +1,6 @@
-package com.gojek.pl.main;
+package com.gojek.pl.model.inst;
+
+import com.gojek.pl.core.ParkingSpace;
 
 /**
  * a parking space factory is a type of instruction to create parking space

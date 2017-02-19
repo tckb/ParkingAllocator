@@ -1,4 +1,4 @@
-package com.gojek.pl.main;
+package com.gojek.pl.core;
 
 /**
  * some basic utility methods

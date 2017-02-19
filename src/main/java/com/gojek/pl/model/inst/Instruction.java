@@ -1,4 +1,4 @@
-package com.gojek.pl.main;
+package com.gojek.pl.model.inst;
 
 /**
  * A spec defining an instruction to be executed on the parking lot

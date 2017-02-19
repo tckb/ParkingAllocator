@@ -1,4 +1,6 @@
-package com.gojek.pl.main;
+package com.gojek.pl.model.inst;
+
+import com.gojek.pl.model.Vehicle;
 
 /**
  * Parking instruction, takes two arguments: carNumber, carColor

@@ -1,4 +1,4 @@
-package com.gojek.pl.main;
+package com.gojek.pl;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
