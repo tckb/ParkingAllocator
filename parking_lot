@@ -1,0 +1,51 @@
+#!/bin/bash
+# Script to clean, test, build & run the source
+
+check_command(){
+
+hash $1 &>/dev/null
+# Command does not exists
+if [[ $? -ne 0 ]]; then
+       	echo $1 'is required for this script to run, either this is not available on `PATH` or not installed.'
+	 exit 100
+fi
+}
+
+### Main script
+
+check_command mvn
+check_command javac
+check_command java
+
+SRC_DIR=$PWD
+INST_FILE=$1
+JAR_FILE=$SRC_DIR/target/parking-lot-0.1.jar
+
+if [[ ( -z $INST_FILE ) || ( ! -e $INST_FILE ) ]]; then
+	echo "> invalid instruction file! Usage: $0 </path/to/instruction_file.txt>"
+	exit 200
+fi
+
+
+if [[ ( ! -e $JAR_FILE ) ]]; then
+	echo "> Jar file doesn't exit"
+	echo "> Cleaning & Building the project ..."
+	cd $SRC_DIR
+	mvn -q clean package
+
+	if [[ $? -ne 0  ]]; then
+		echo "> Sorry, build failed!"
+		exit 300
+	fi
+
+	if [[ ! ( -e $JAR_FILE ) ]]; then
+	       	echo "> Build finished but jar doesn't exist!"
+		exit 400
+	fi
+fi
+
+
+echo "> Running the jar file ..."
+java -jar $JAR_FILE $INST_FILE
+
+
