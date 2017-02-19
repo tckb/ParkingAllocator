@@ -1,6 +1,7 @@
 package com.gojek.pl;
 
 import com.gojek.pl.core.InstructionParser;
+import com.gojek.pl.model.inst.Instruction;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,7 +44,8 @@ public class InstructionParserTest {
     public void testValidInstruction() {
         try {
             for (String inst : validInstructions) {
-                InstructionParser.parseString(inst);
+                final Instruction instruction = InstructionParser.parseString(inst);
+                System.out.println(instruction);
             }
         } catch (Exception ex) {
             Assert.fail("valid instruction parsing failed", ex);
@@ -59,6 +61,7 @@ public class InstructionParserTest {
                 InstructionParser.parseString(inst);
             } catch (Exception ex) {
                 exceptions++;
+                System.out.println(ex.getMessage());
             }
         }
         Assert.assertEquals(exceptions, invalidInstructions.length, "invalid instruction parsing count failed!");
